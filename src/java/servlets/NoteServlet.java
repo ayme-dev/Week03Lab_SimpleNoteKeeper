@@ -56,7 +56,10 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // processRequest(request, response);
+        System.out.println("doGET():");
+        response.setContentType("text/html;charset=UTF-8");
+        getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp").forward(request, response);
     }
 
     /**
@@ -70,7 +73,10 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
+        System.out.println("doPOST():");
+       response.setContentType("text/html;charset=UTF-8");
+       getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request, response);
     }
 
     /**
