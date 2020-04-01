@@ -13,5 +13,8 @@
     </head>
     <body>
         <h1>View Note</h1>
+        <div>Title: N/A</div>
+        <div>Contents: <br />N/A</div>
+        <a href="/Week03Lab_SimpleNoteKeeper/note?edit">Edit</a>
     </body>
 </html>

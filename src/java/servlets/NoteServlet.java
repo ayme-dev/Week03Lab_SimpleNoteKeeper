@@ -29,19 +29,7 @@ public class NoteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NoteServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NoteServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,10 +44,18 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // processRequest(request, response);
-        System.out.println("doGET():");
+        
         response.setContentType("text/html;charset=UTF-8");
-        getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp").forward(request, response);
+        System.out.println("GET Request:");
+        String edit = request.getParameter("edit");
+        
+        if (edit != null) {
+            System.out.println("Edit Mode");
+            getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp").forward(request,response);
+        } else {
+            System.out.println("View Mode");
+            getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request,response);
+        }
     }
 
     /**
@@ -73,10 +69,20 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-        System.out.println("doPOST():");
-       response.setContentType("text/html;charset=UTF-8");
-       getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request, response);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        System.out.println("POST Request:");
+        String edit = request.getParameter("edit");
+        String title = request.getParameter("title");
+        String contents = request.getParameter("contents");
+        
+        if (edit != null) {
+            System.out.println("Edit is set!"); 
+        }
+        
+        System.out.println("Title: "+ title);
+        System.out.println("Contents: "+ contents);
+        getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request,response);
     }
 
     /**
