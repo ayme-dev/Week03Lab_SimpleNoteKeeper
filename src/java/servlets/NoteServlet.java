@@ -5,6 +5,11 @@
  */
 package servlets;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -46,7 +51,9 @@ public class NoteServlet extends HttpServlet {
             throws ServletException, IOException {
         
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("GET Request:");
+//        System.out.println("GET Request:");
+        String title = "";
+        String contents = "";
         String edit = request.getParameter("edit");
         
         if (edit != null) {
@@ -56,6 +63,19 @@ public class NoteServlet extends HttpServlet {
             System.out.println("View Mode");
             getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request,response);
         }
+        
+        String path = getServletContext().getRealPath("/WEB-INF/note.txt");
+        BufferedReader br = new BufferedReader(new FileReader(new File(path)));
+        
+        while (br.ready()) {
+            title = br.readLine();
+            contents = br.readLine();
+        }
+        
+        br.close();
+        
+        request.setAttribute("title", title);
+        request.setAttribute("contents", contents);
     }
 
     /**
@@ -71,17 +91,29 @@ public class NoteServlet extends HttpServlet {
             throws ServletException, IOException {
         
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("POST Request:");
+//        System.out.println("POST Request:");
+
         String edit = request.getParameter("edit");
         String title = request.getParameter("title");
         String contents = request.getParameter("contents");
         
-        if (edit != null) {
-            System.out.println("Edit is set!"); 
-        }
+        String path = getServletContext().getRealPath("/WEB-INF/note.txt");
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path)));
         
-        System.out.println("Title: "+ title);
-        System.out.println("Contents: "+ contents);
+        pw.write(title + "\n");
+        pw.write(contents);
+        
+        request.setAttribute("title", title);
+        request.setAttribute("contents", contents);
+        
+        pw.close();
+        
+//        if (edit != null) {
+//            System.out.println("Edit is set!"); 
+//        }
+        
+//        System.out.println("Title: "+ title);
+//        System.out.println("Contents: "+ contents);
         getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request,response);
     }
 
